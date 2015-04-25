@@ -70,6 +70,10 @@ setInterval(function() {
         return;
     }
 
+    epicData.time = Date.now();
+
+    console.log(epicData.time);
+
     postData(epicData);
 }, 100);
 
