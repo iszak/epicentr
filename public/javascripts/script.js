@@ -88,14 +88,19 @@ var postData = function(epicData) {
     socket.emit('movement', epicData);
 };
 
+var timeout = null;
 socket.on('disaster', function (data) {
     var alertElement = document.getElementById('alert');
 
-    console.log(data);
     alertElement.classList.add('visible');
 
-    window.navigator.vibrate(2000000);
+    clearTimeout(timeout);
 
+    timeout = setTimeout(function(){
+        alertElement.classList.removeClass('visible');
+    }, 1000);
+
+    window.navigator.vibrate(200);
 });
 
 
