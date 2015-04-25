@@ -20,7 +20,8 @@ io.on('connection', function (socket) {
 
     if (disaster.calculate(earthquake)) {
       socket.broadcast.emit('disaster', {
-        type: 'earthquake'
+        type: 'earthquake',
+        severity: 1
       });
     }
   });
