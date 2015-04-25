@@ -21,9 +21,9 @@ io.on('connection', function (socket) {
     disaster.add(data);
 
     // disaster.calculate(earthquake)
-    if (disaster.calculate(earthquake)) {
+    if (true) {
       console.log('Disaster detected');
-      socket.emit('disaster', {
+      io.sockets.emit('disaster', {
         type: 'earthquake',
         severity: 1
       });
