@@ -78,13 +78,39 @@ setInterval(function() {
 
 // GOOGLE MAP
 var initMap = function(data) {
+    var bounds = new google.maps.LatLngBounds();
+
     var mapOptions = {
-      center: { lat: latitude, lng: longitude},
+      center: { lat: data.location.latitude, lng: data.location.longitude},
       zoom: 8
     };
 
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
+
+    for( i = 0; i < data.data.length; i++ ) {
+        console.log(data.data[i].location.latitude);
+
+        var position = new google.maps.LatLng(data.data[i].location.latitude, data.data[i].location.longitude);
+        bounds.extend(position);
+
+        marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: 'marker' + data.data[i]
+        });
+        
+        // // Allow each marker to have an info window    
+        // google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        //     return function() {
+        //         infoWindow.setContent(infoWindowContent[i][0]);
+        //         infoWindow.open(map, marker);
+        //     }
+        // })(marker, i));
+
+        // Automatically center the map fitting all markers on the screen
+        map.fitBounds(bounds);
+    }
 };
 
 
@@ -100,7 +126,9 @@ var postData = function(epicData) {
     socket.emit('movement', epicData);
 };
 
-var timeout = null;
+var timeout = null,
+    locationName = null;
+
 socket.on('disaster', function (data) {
     var alertElement = document.getElementById('alert');
 
@@ -114,9 +142,11 @@ socket.on('disaster', function (data) {
 
     window.navigator.vibrate(200);
 
-    console.log(data);
+    if (locationName !== data.location.name) {
+        locationName = data.location.name;
 
-    initMap(data);
+        initMap(data);    
+    }
 });
 
 
