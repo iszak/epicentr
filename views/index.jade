@@ -1,24 +1,31 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
 
-  #support.box
+  #alert
+    .alert-wrapper
+      .alert-content DISASTER IN YOUR AREA!!!
 
-  .error
-  .box
-    p movement x:
-      span#x
-  .box
-    p movement y:
-      span#y
-  .box
-    p movement z:
-      span#z
-  .box
-    p interval:
-      span#interval
+  .wrapper
 
-  .disaster
-    A disaster is occuring
+    h1= title
+    p Welcome to #{title}
+
+    #support.box
+
+    .error
+    .box
+      p movement x:
+        span#x
+    .box
+      p movement y:
+        span#y
+    .box
+      p movement z:
+        span#z
+    .box
+      p interval:
+        span#interval
+
+    .disaster
+      A disaster is occuring

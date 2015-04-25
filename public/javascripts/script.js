@@ -84,9 +84,14 @@ var postData = function(epicData) {
 };
 
 socket.on('disaster', function (data) {
+    var alertElement = document.getElementById('alert');
+
     console.log(data);
+    alertElement.classList.add('visible');
+
+    window.navigator.vibrate(2000000);
+
 });
 
 
-window.navigator.vibrate(2000000);
 
