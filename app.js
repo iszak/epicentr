@@ -30,7 +30,8 @@ io.on('connection', function (socket) {
       io.sockets.emit('disaster', {
         type: 'earthquake',
         location: d.location,
-        data: d.data
+        data: d.data,
+        stats: d.stats
       });
     }
   });

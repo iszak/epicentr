@@ -70,6 +70,12 @@ setInterval(function() {
         return;
     }
 
+    if (true) {
+        deviceMotion({
+            acceleration: {}
+        });
+    }
+
     epicData.time = Date.now();
 
     postData(epicData);
@@ -165,6 +171,7 @@ var timeout = null,
     locationName = null;
 
 socket.on('disaster', function (data) {
+    console.log(data);
     var alertElement = document.getElementById('alert');
 
     alertElement.classList.add('visible');
