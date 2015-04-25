@@ -57,7 +57,7 @@ function add(data) {
   var locationPool = getPool(
     data.location.latitude,
     data.location.longitude,
-    Math.floor(data.time / 100)
+    Math.floor(data.time / 1000)
   );
 
   if (!locationPool) {
@@ -90,7 +90,7 @@ function prune() {
  * @return {Number}
  */
 function now() {
-  return Math.floor(Date.now() / 100);
+  return Math.floor(Date.now() / 1000);
 }
 
 /**
@@ -127,12 +127,12 @@ function calculate(data) {
   var locationPool = getPool(
     data.location.latitude,
     data.location.longitude,
-    Math.floor(data.time / 100)
+    Math.floor(data.time / 1000)
   );
 
   console.log('Calculate ', earthquake(locationPool));
   if (earthquake(locationPool)) {
-    return closest(location.latitude, location.longitude);
+    return closest(data.latitude, data.longitude);
   } else {
     return null;
   }
