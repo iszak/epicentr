@@ -72,8 +72,6 @@ setInterval(function() {
 
     epicData.time = Date.now();
 
-    console.log(epicData.time);
-
     postData(epicData);
 }, 100);
 
