@@ -79,7 +79,7 @@ socket.on('connect', function() {
 });
 
 var postData = function(epicData) {
-    socket.emit('movement', {data: epicData});
+    socket.emit('movement', epicData);
 };
 
 socket.on('disaster', function (data) {
