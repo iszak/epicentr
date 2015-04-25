@@ -56,6 +56,10 @@ function closest(latitude, longitude) {
 function add(event) {
   var locationPool = getPool(event.location);
 
+  if (!locationPool) {
+    return;
+  }
+
   poolSize += 1;
   locationPool.push(event);
 }
@@ -66,26 +70,23 @@ function add(event) {
 function prune() {
   var currentTimestamp = now();
 
-  console.log('Pool size before', poolSize);
-
+  console.log('Deleting start', poolSize);
   Object.keys(pool).forEach(function(location) {
     Object.keys(pool[location]).forEach(function(timestamp) {
       if (timestamp < currentTimestamp - 1) {
-        console.log('Deleting');
         poolSize -= pool[location][timestamp].length;
         delete pool[location][timestamp];
       }
     });
   });
-
-  console.log('Pool size after', poolSize);
+  console.log('Deleting end', poolSize);
 }
 
 /**
  * @return {Number}
  */
 function now() {
-  return Math.floor(Date.now() / 1000);
+  return Math.floor(Date.now() / 100);
 }
 
 function getPool(location)
@@ -117,6 +118,7 @@ function getPool(location)
 function calculate(location) {
   var locationPool = getPool(location);
 
+  console.log('Calculate ', earthquake(locationPool));
   if (earthquake(locationPool)) {
     return closest(location.latitude, location.longitude);
   } else {

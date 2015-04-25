@@ -1,4 +1,4 @@
-var maximum = 2;
+var maximum = 15;
 
 var thresholds = {
   x: 0,
@@ -10,6 +10,10 @@ var thresholds = {
  * @param {Object} events
  */
 module.exports = function(events) {
+  if (!events) {
+    return false;
+  }
+
   // Won't surpass maximum
   if (events.length < maximum) {
     return false;
@@ -17,7 +21,6 @@ module.exports = function(events) {
 
   var count = 0;
   events.forEach(function(event) {
-    console.log(event.movement, thresholds);
     if (Math.abs(event.movement.z) > thresholds.z) {
       count += 1;
     }

@@ -1,5 +1,4 @@
 var disaster = require('./services/index');
-var earthquake = require('./services/earthquake');
 
 
 var express = require('express');
