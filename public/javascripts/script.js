@@ -66,7 +66,7 @@ var watchLocation = function() {
 
 // POST DATA TIMER
 setInterval(function() {
-    if (!epicData.location) return;
+    if (!epicData.location || !epicData.movement) return;
     postData(epicData);
 }, 50);
 
