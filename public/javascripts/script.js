@@ -1,11 +1,12 @@
+var epicData = {};
 
-// ORIENTATION
+// MOVEMENT
 if (!window.DeviceMotionEvent) {
     document.getElementById("support").innerHTML = "Not supported."
 }
 
 var deviceMotion = function(eventData) {
-    var movement = []
+    var movement = [],
         acceleration = eventData.acceleration;
 
     if (acceleration.x == null) {
@@ -18,7 +19,8 @@ var deviceMotion = function(eventData) {
     }
 
     renderDeviceMotion(movement);
-    postData(movement);
+
+    epicData.movement = movement;
 };
 
 function renderDeviceMotion(movement) {
@@ -37,70 +39,54 @@ function randomDeviceMotion() {
     };
 }
 
-// SOCKET IO
-
-var socket = io.connect(window.location.host);
-
-socket.on('connect', function() {
-    window.addEventListener('devicemotion', deviceMotion);
-});
-
-var postData = function(movement, interval) {
-    socket.emit('movement', {movement: movement});
-};
-
-socket.on('disaster', function (data) {
-    console.log(data);
-});
-
 
 // GEOLOCATION
+var watchLocation = function() {
+    var location = {};
 
-function geoFindMe() {
-    //
-    // Save elements on the DOM to output
-    var output = document.getElementById("geolocation-output");
-    var support = document.getElementById("geolocation-support");
-
-    // Checking if geoloaction is supported and outputting message if it is not
     if ( !navigator.geolocation ) {
         support.innerHTML = "Sorry, Geolocation is not supported"
         return;
     };
 
-    // On success, pass in position
-    function success( position ) {
-        //
-        // Save position coordiates
-        var latitude  = position.coords.latitude;
-        var longitude = position.coords.longitude;
-        //
-        // Output string with geolocation position
-        output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
-        //
-        // Create img object
-        var img = new Image();
-        //
-        // Concat string from googlemaps with location
-        img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
-        //
-        // Append img to DOM
-        output.appendChild(img);
-    };
+    function success(position) {
+        location.latitude = position.coords.latitude;
+        location.longitude = position.coords.longitude;
 
-    // On error
+        epicData.location = location;
+    }
+
     function error() {
-        //
-        // Output error message to DOM
         output.innerHTML = "Unable to retrieve your location";
     };
 
-    // Output message to DOM while loading
-    output.innerHTML = "<p>Locating…</p>";
+    navigator.geolocation.watchPosition(success, error);
+};
 
-    // Call geolocation function
-    navigator.geolocation.getCurrentPosition(success, error);
-}
+
+// POST DATA TIMER
+setInterval(function() {
+    postData(epicData);
+}, 50);
+
+
+// SOCKET IO
+var socket = io.connect(window.location.host);
+
+socket.on('connect', function() {
+    window.addEventListener('devicemotion', deviceMotion);
+    watchLocation();
+});
+
+var postData = function(epicData) {
+    console.log(epicData);
+
+    socket.emit('movement', {data: epicData});
+};
+
+socket.on('disaster', function (data) {
+    console.log(data);
+});
 
 
 window.navigator.vibrate(2000000);
