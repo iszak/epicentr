@@ -1,9 +1,12 @@
+var pool = {};
+
 /**
  * @param {Object} pool
- * @param {Number} timestamp
  * @param {Object} event
  */
-function add(pool, timestamp, event) {
+function add(event) {
+  var timestamp = now();
+
   if (!pool[timestamp]) {
     pool[timestamp] = [];
   }
@@ -13,9 +16,10 @@ function add(pool, timestamp, event) {
 
 /**
  * @param {Object} pool
- * @param {Number} timestamp
  */
-function prune(pool, timestamp) {
+function prune() {
+  var timestamp = now();
+
   Object.keys(pool).forEach(function(key){
     if (key < timestamp - 1) {
       delete pool[key];
@@ -35,7 +39,7 @@ function now() {
  * @param  {Function} disaster
  * @return {Boolean}
  */
-function calculate(pool, disaster) {
+function calculate(disaster) {
   return disaster(pool[now()]);
 }
 
@@ -56,17 +60,11 @@ function random() {
   }
 }
 
-var pools = {};
 
-add(pools, now(), random());
-add(pools, now(), random());
-add(pools, now(), random());
-add(pools, now(), random());
-
-var earthquake = require('./earthquake');
-
-if (calculate(pools, earthquake)) {
-  console.log('Earth quake');
-} else {
-  console.log('Nothing');
-}
+module.exports = {
+  add: add,
+  prune: prune,
+  now: now,
+  calculate: calculate,
+  random: random
+};

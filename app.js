@@ -1,3 +1,7 @@
+var disaster = require('./services/disaster');
+var earthquake = require('./services/earthquake');
+
+
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -9,9 +13,17 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
+
 io.on('connection', function (socket) {
-  var disaster = 'earthquake';
-  // socket.broadcast.emit(disaster);
+  socket.on('movement', function(data){
+    disaster.add(data);
+
+    if (disaster.calculate(earthquake)) {
+      socket.broadcast.emit('disaster', {
+        type: 'earthquake'
+      });
+    }
+  });
 });
 
 server.listen(3000);

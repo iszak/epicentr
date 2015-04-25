@@ -1,11 +1,15 @@
 var maximum = 3;
 
+var thresholds = {
+  x: 4.5,
+  y: 4.5,
+  z: 4.5
+};
+
 /**
  * @param {Object} events
  */
 module.exports = function(events) {
-  var events = pool[now()];
-
   // Won't surpass maximum
   if (events.length < maximum) {
     return false;
