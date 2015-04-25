@@ -97,7 +97,7 @@ socket.on('disaster', function (data) {
     clearTimeout(timeout);
 
     timeout = setTimeout(function(){
-        alertElement.classList.removeClass('visible');
+        alertElement.classList.remove('visible');
     }, 1000);
 
     window.navigator.vibrate(200);

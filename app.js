@@ -12,14 +12,6 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
-var connectCounter = 0;
-io.on('connect', function() {
-  connectCounter++;
-});
-io.on('disconnect', function() {
-  connectCounter--;
-});
-
 io.on('connection', function (socket) {
   socket.on('movement', function(data){
     console.log("Received data: ", data);
@@ -31,13 +23,14 @@ io.on('connection', function (socket) {
 
     disaster.add(data);
 
-    var location = disaster.calculate(data);
+    var d = disaster.calculate(data);
 
-    if (location) {
-      console.log('Disaster detected near: ' + location.name);
+    if (d) {
+      console.log('Disaster detected near: ' + d.location.name);
       io.sockets.emit('disaster', {
         type: 'earthquake',
-        severity: 1
+        location: d.location.name,
+        data: d.data
       });
     }
   });

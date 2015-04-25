@@ -68,6 +68,18 @@ function add(data) {
   locationPool.push(data);
 }
 
+function simplifyData(events) {
+  var data = [];
+
+  events.forEach(function(event){
+    data.push(
+      event.location
+    );
+  });
+
+  return data;
+}
+
 /**
  * @param {Object} pool
  */
@@ -100,6 +112,10 @@ function now() {
  */
 function getPool(latitude, longitude, timestamp)
 {
+  if (!timestamp) {
+    return;
+  }
+
   var location = closest(
     latitude,
     longitude
@@ -134,7 +150,10 @@ function calculate(data) {
 
   console.log('Calculate ', earthquake(locationPool));
   if (earthquake(locationPool)) {
-    return closest(data.latitude, data.longitude);
+    return {
+      location: closest(data.latitude, data.longitude),
+      data: locationPool
+    };
   } else {
     return null;
   }

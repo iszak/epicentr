@@ -1,4 +1,4 @@
-var maximum = 3;
+var maximum = 10;
 
 var thresholds = {
   x: 0,
