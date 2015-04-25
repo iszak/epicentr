@@ -6,7 +6,7 @@ if (!window.DeviceMotionEvent) {
 }
 
 var deviceMotion = function(eventData) {
-    var movement = [],
+    var movement = {},
         acceleration = eventData.acceleration;
 
     if (acceleration.x == null) {
@@ -79,8 +79,6 @@ socket.on('connect', function() {
 });
 
 var postData = function(epicData) {
-    console.log(epicData);
-
     socket.emit('movement', {data: epicData});
 };
 
