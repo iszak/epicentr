@@ -1,9 +1,9 @@
-var maximum = 3;
+var maximum = 1;
 
 var thresholds = {
-  x: 4.5,
-  y: 4.5,
-  z: 4.5
+  x: 3,
+  y: 3,
+  z: 3
 };
 
 /**

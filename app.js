@@ -16,10 +16,14 @@ var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
   socket.on('movement', function(data){
+    console.log("Received data: ", data);
+
     disaster.add(data);
 
+    // disaster.calculate(earthquake)
     if (disaster.calculate(earthquake)) {
-      socket.broadcast.emit('disaster', {
+      console.log('Disaster detected');
+      socket.emit('disaster', {
         type: 'earthquake',
         severity: 1
       });

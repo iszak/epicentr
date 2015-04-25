@@ -8,21 +8,34 @@ var deviceMotion = function(eventData) {
     var movement = []
         acceleration = eventData.acceleration;
 
-    movement.x = Math.round(acceleration.x);
-    movement.y = Math.round(acceleration.y);
-    movement.z = Math.round(acceleration.z);
-    movement.interval = eventData.interval;
+    if (acceleration.x == null) {
+        movement = randomDeviceMotion();
+    } else {
+        movement.x = Math.round(acceleration.x);
+        movement.y = Math.round(acceleration.y);
+        movement.z = Math.round(acceleration.z);
+        movement.interval = eventData.interval;
+    }
 
+    renderDeviceMotion(movement);
+    postData(movement);
+};
+
+function renderDeviceMotion(movement) {
     document.getElementById("x").innerHTML = movement.x;
     document.getElementById("y").innerHTML = movement.y;
     document.getElementById("z").innerHTML = movement.z;
     document.getElementById("interval").innerHTML = movement.interval;
+}
 
-    console.log(movement);
-
-    postData(movement);
-};
-
+function randomDeviceMotion() {
+    return {
+        x: Math.round(Math.random() * 10 - 5),
+        y: Math.round(Math.random() * 10 - 5),
+        z: Math.round(Math.random() * 10 - 5),
+        interval: 1
+    };
+}
 
 // SOCKET IO
 
@@ -38,7 +51,6 @@ var postData = function(movement, interval) {
 
 socket.on('disaster', function (data) {
     console.log(data);
-    socket.emit('my other event', { my: 'data' });
 });
 
 
