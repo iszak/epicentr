@@ -76,6 +76,18 @@ setInterval(function() {
 }, 100);
 
 
+// GOOGLE MAP
+var initMap = function(data) {
+    var mapOptions = {
+      center: { lat: latitude, lng: longitude},
+      zoom: 8
+    };
+
+    var map = new google.maps.Map(document.getElementById('map-canvas'),
+        mapOptions);
+};
+
+
 // SOCKET IO
 var socket = io.connect(window.location.host);
 
@@ -101,6 +113,10 @@ socket.on('disaster', function (data) {
     }, 1000);
 
     window.navigator.vibrate(200);
+
+    console.log(data);
+
+    initMap(data);
 });
 
 
