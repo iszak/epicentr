@@ -101,44 +101,51 @@ var initMap = function(data) {
         var position = new google.maps.LatLng(data.data[i].location.latitude, data.data[i].location.longitude);
         bounds.extend(position);
 
-        // var SeverityColors = [
-        //     colorOne: "red",
-        //     colorTwo: "orange",
-        //     colorThree: "yellow",
-        //     colorFour: "white"
-        // ]
 
-        // var min = 20;
-        // var max = 40;
+        // SEVERITY MARKER COLORS
 
-        // var range = max - min; // 20
-        // var section = range / 4; // 5
+        var movementSeverity = data.data[i].movement.z;
+        var minMovement = 20; // Hard coded
+        var maxMovement = 40; // Hard coded
 
-        // var severityOne = min + section; // 25
-        // var severityTwo = min + ( section * 2 ); // 30
-        // var severityThree = min + ( section * 3 ); // 35
-        // var severityFour = min + ( section * 4 ); // 40
+        var SeverityColors = [
+            colorOne: "red",
+            colorTwo: "orange",
+            colorThree: "yellow",
+            colorFour: "white"
+        ]
 
-        // var markerColor;
+        var range = maxMovement - minMovement; // 20
+        var section = range / 4; // 5
 
-        // if ( )
+        var severityOne = minMovement + section; // 25
+        var severityTwo = minMovement + ( section * 2 ); // 30
+        var severityThree = minMovement + ( section * 3 ); // 35
+        var severityFour = minMovement + ( section * 4 ); // 40
 
-        // switch ( data.stats ) {
-        //     case min > :
-        //         markerColor = SeverityColors.colorOne;
-        //         break;
-        //     case 0:
-        //         markerColor = SeverityColors.colorOne;
-        //         break;
-        // }
+        var markerColor;
 
+        switch ( movementSeverity ) {
+            case movementSeverity <= severityOne :
+                markerColor = SeverityColors.colorOne;
+                break;
+            case movementSeverity <= severityTwo :
+                markerColor = SeverityColors.colorTwo;
+                break;
+            case movementSeverity <= severityThree :
+                markerColor = SeverityColors.colorThree;
+                break;
+            case movementSeverity <= severityFour :
+                markerColor = SeverityColors.colorFour;
+                break;
+        }
 
 
         marker = new google.maps.Marker({
             position: position,
             map: map,
-            title: 'marker' + data.data[i]
-            // icon: 'http://maps.google.com/mapfiles/ms/icons/' + ??????????????? + '.png'
+            title: 'marker' + data.data[i],
+            icon: 'http://maps.google.com/mapfiles/ms/icons/' + markerColor + '.png'
         });
 
         // // Allow each marker to have an info window
