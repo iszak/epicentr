@@ -12,6 +12,13 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
+var connectCounter = 0;
+io.on('connect', function() {
+  connectCounter++;
+});
+io.on('disconnect', function() {
+  connectCounter--;
+});
 
 io.on('connection', function (socket) {
   socket.on('movement', function(data){

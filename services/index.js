@@ -113,9 +113,11 @@ function getPool(latitude, longitude, timestamp)
     pool[location.name][timestamp] = [];
   }
 
-  console.log('Location pool:', location.name, timestamp);
+  var pool = pool[location.name][timestamp];
 
-  return pool[location.name][now()];
+  console.log('Pool:', location.name, timestamp, pool.length);
+
+  return pool;
 }
 
 /**
