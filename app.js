@@ -34,6 +34,8 @@ io.on('connection', function (socket) {
         severity: 1
       });
     }
+
+    disaster.prune();
   });
 });
 

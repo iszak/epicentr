@@ -16,6 +16,7 @@ var locations = [
 
 
 var pool = {};
+var poolSize = 0;
 
 /**
  * @param  {Number} latitude
@@ -50,6 +51,7 @@ function closest(latitude, longitude) {
 function add(event) {
   var locationPool = getPool(event.location);
 
+  poolSize += 1;
   locationPool.push(event);
 }
 
@@ -57,15 +59,21 @@ function add(event) {
  * @param {Object} pool
  */
 function prune() {
-  var now = now();
+  var currentTimestamp = now();
+
+  console.log('Pool size before', poolSize);
 
   Object.keys(pool).forEach(function(location) {
-    Object.keys(location).forEach(function(timestamp){
-      if (timestamp < now - 1) {
+    Object.keys(pool[location]).forEach(function(timestamp) {
+      if (timestamp < currentTimestamp - 1) {
+        console.log('Deleting');
+        poolSize -= pool[location][timestamp].length;
         delete pool[location][timestamp];
       }
     });
   });
+
+  console.log('Pool size after', poolSize);
 }
 
 /**
