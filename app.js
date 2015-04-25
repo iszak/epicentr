@@ -29,7 +29,7 @@ io.on('connection', function (socket) {
       console.log('Disaster detected near: ' + d.location.name);
       io.sockets.emit('disaster', {
         type: 'earthquake',
-        location: d.location.name,
+        location: d.location,
         data: d.data
       });
     }
