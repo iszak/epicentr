@@ -57,7 +57,7 @@ var watchLocation = function() {
     }
 
     function error() {
-        output.innerHTML = "Unable to retrieve your location";
+        document.querySelector('.error').innerHTML = "Unable to retrieve your location";
     };
 
     navigator.geolocation.watchPosition(success, error);
