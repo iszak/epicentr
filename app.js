@@ -24,7 +24,7 @@ io.on('connection', function (socket) {
 
     disaster.add(data);
 
-    var location = disaster.calculate(data.location);
+    var location = disaster.calculate(data);
 
     if (location) {
       console.log('Disaster detected near: ' + location.name);
