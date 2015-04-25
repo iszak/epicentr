@@ -1,4 +1,4 @@
-var disaster = require('./services/disaster');
+var disaster = require('./services/index');
 var earthquake = require('./services/earthquake');
 
 
@@ -18,11 +18,17 @@ io.on('connection', function (socket) {
   socket.on('movement', function(data){
     console.log("Received data: ", data);
 
+    data.location = {
+      latitude: 51.607222,
+      longitude: -0.1275
+    };
+
     disaster.add(data);
 
-    // disaster.calculate(earthquake)
-    if (true) {
-      console.log('Disaster detected');
+    var location = disaster.calculate(data.location);
+
+    if (location) {
+      console.log('Disaster detected near: ' + location.name);
       io.sockets.emit('disaster', {
         type: 'earthquake',
         severity: 1

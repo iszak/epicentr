@@ -1,6 +1,12 @@
 var haversine = require('haversine');
+var earthquake = require('./earthquake');
 
 var locations = [
+  {
+    latitude: 55.75,
+    longitude: 37.616667,
+    name: 'Moscow'
+  },
   {
     latitude: 51.507222,
     longitude: -0.1275,
@@ -23,11 +29,12 @@ function closest(latitude, longitude) {
   };
 
   var closestLocation = null;
-  var closestDistance = 0;
+  var closestDistance = null;
   locations.forEach(function(location) {
     var locationDistance = haversine(location, userLocation);
 
-    if (locationDistance < closestDistance) {
+    if (closestDistance == null ||
+        locationDistance < closestDistance) {
       closestDistance = locationDistance;
       closestLocation = location;
     }
@@ -41,19 +48,9 @@ function closest(latitude, longitude) {
  * @param {Object} event
  */
 function add(event) {
-  var timestamp = now();
-  var location  = closest();
+  var locationPool = getPool(event.location);
 
-  // TODO: Add logging
-  if (location == null) {
-    return;
-  }
-
-  if (!pool[location.name][timestamp]) {
-    pool[location.name][timestamp] = [];
-  }
-
-  pool[location.name][timestamp].push(event);
+  locationPool.push(event);
 }
 
 /**
@@ -78,13 +75,40 @@ function now() {
   return Math.floor(Date.now() / 1000);
 }
 
+function getPool(location)
+{
+  var timestamp = now();
+  var location = closest(
+    location.latitude,
+    location.longitude
+  );
+
+  if (!pool[location.name]) {
+    pool[location.name] = [];
+  }
+
+  if (!pool[location.name][timestamp]) {
+    pool[location.name][timestamp] = [];
+  }
+
+  console.log('Location pool:', location.name, timestamp);
+
+  return pool[location.name][now()];
+}
+
 /**
  * @param  {Object} pool
  * @param  {Function} disaster
  * @return {Boolean}
  */
-function calculate(disaster) {
-  return disaster(pool[now()]);
+function calculate(location) {
+  var locationPool = getPool(location);
+
+  if (earthquake(locationPool)) {
+    return closest(location.latitude, location.longitude);
+  } else {
+    return null;
+  }
 }
 
 /**
