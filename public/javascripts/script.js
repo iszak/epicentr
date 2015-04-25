@@ -4,35 +4,40 @@
 if (window.DeviceMotionEvent) {
     // Listen for the event and handle DeviceOrientationEvent object
     window.addEventListener('devicemotion', function(eventData) {
-        var info, xyz = '[X, Y, Z]';
-
-        console.log(eventData);
+        var accelerationData, rotationData, intervalData, xyz = '[X, Y, Z]';
 
         var acceleration = eventData.acceleration;
-        info = xyz.replace("X", Math.round(acceleration.x));
-        info = info.replace("Y", Math.round(acceleration.y));
-        info = info.replace("Z", Math.round(acceleration.z));
-        document.getElementById("alpha").innerHTML = info;
-
-        console.log(info);
+        accelerationData = xyz.replace("X", Math.round(acceleration.x));
+        accelerationData = accelerationData.replace("Y", Math.round(acceleration.y));
+        accelerationData = accelerationData.replace("Z", Math.round(acceleration.z));
+        document.getElementById("alpha").innerHTML = accelerationData;
 
         var rotation = eventData.rotationRate;
-        info = xyz.replace('X', Math.round(rotation.alpha));
-        info = info.replace('Y', Math.round(rotation.beta));
-        info = info.replace('Z', Math.round(rotation.gamma));
-        document.getElementById("beta").innerHTML = info;
+        rotationData = xyz.replace('X', Math.round(rotation.alpha));
+        rotationData = rotationData.replace('Y', Math.round(rotation.beta));
+        rotationData = rotationData.replace('Z', Math.round(rotation.gamma));
+        document.getElementById("beta").innerHTML = rotationData;
 
-        console.log(info);
+        intervalData = eventData.interval;
+        document.getElementById("gamma").innerHTML = intervalData;
 
-        info = eventData.interval;
-        document.getElementById("gamma").innerHTML = info;
-
-        console.log(info);
+        
     }, false);
 } else {
     document.getElementById("support").innerHTML = "Not supported."
 }
 
+
+// SOCKET IO
+
+var socket = io.connect('http://localhost:3000');
+
+
+
+socket.on('disaster', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+});
 
 
 // GEOLOCATION
