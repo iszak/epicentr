@@ -1,38 +1,40 @@
 
 // ORIENTATION
-
-if (window.DeviceMotionEvent) {
-    // Listen for the event and handle DeviceOrientationEvent object
-    window.addEventListener('devicemotion', function(eventData) {
-        var accelerationData, rotationData, intervalData, xyz = '[X, Y, Z]';
-
-        var acceleration = eventData.acceleration;
-        accelerationData = xyz.replace("X", Math.round(acceleration.x));
-        accelerationData = accelerationData.replace("Y", Math.round(acceleration.y));
-        accelerationData = accelerationData.replace("Z", Math.round(acceleration.z));
-        document.getElementById("alpha").innerHTML = accelerationData;
-
-        var rotation = eventData.rotationRate;
-        rotationData = xyz.replace('X', Math.round(rotation.alpha));
-        rotationData = rotationData.replace('Y', Math.round(rotation.beta));
-        rotationData = rotationData.replace('Z', Math.round(rotation.gamma));
-        document.getElementById("beta").innerHTML = rotationData;
-
-        intervalData = eventData.interval;
-        document.getElementById("gamma").innerHTML = intervalData;
-
-
-    }, false);
-} else {
+if (!window.DeviceMotionEvent) {
     document.getElementById("support").innerHTML = "Not supported."
 }
+
+var deviceMotion = function(eventData) {
+    var movement = []
+        acceleration = eventData.acceleration;
+
+    movement.x = Math.round(acceleration.x);
+    movement.y = Math.round(acceleration.y);
+    movement.z = Math.round(acceleration.z);
+    movement.interval = eventData.interval;
+
+    document.getElementById("x").innerHTML = movement.x;
+    document.getElementById("y").innerHTML = movement.y;
+    document.getElementById("z").innerHTML = movement.z;
+    document.getElementById("interval").innerHTML = movement.interval;
+
+    console.log(movement);
+
+    postData(movement);
+};
 
 
 // SOCKET IO
 
 var socket = io.connect('http://localhost:3000');
 
+socket.on('connect', function() {
+    window.addEventListener('devicemotion', deviceMotion);
+});
 
+var postData = function(movement, interval) {
+    socket.emit('movement', {movement: movement});
+};
 
 socket.on('disaster', function (data) {
     console.log(data);
