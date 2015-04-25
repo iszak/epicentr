@@ -1,0 +1,19 @@
+{
+  "name": "epicentr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iszak/epicentr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iszak/epicentr/issues"
+  },
+  "homepage": "https://github.com/iszak/epicentr"
+}
