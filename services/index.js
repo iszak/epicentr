@@ -57,7 +57,7 @@ function add(data) {
   var locationPool = getPool(
     data.location.latitude,
     data.location.longitude,
-    data.time
+    Math.floor(data.time / 100)
   );
 
   if (!locationPool) {
@@ -127,7 +127,7 @@ function calculate(data) {
   var locationPool = getPool(
     data.location.latitude,
     data.location.longitude,
-    data.time
+    Math.floor(data.time / 100)
   );
 
   console.log('Calculate ', earthquake(locationPool));
