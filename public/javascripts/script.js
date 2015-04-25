@@ -9,17 +9,17 @@ if (window.DeviceMotionEvent) {
         console.log(eventData);
 
         var acceleration = eventData.acceleration;
-        info = xyz.replace("X", acceleration.x.toFixed(2));
-        info = info.replace("Y", acceleration.y.toFixed(2));
-        info = info.replace("Z", acceleration.z.toFixed(2));
+        info = xyz.replace("X", Math.round(acceleration.x));
+        info = info.replace("Y", Math.round(acceleration.y));
+        info = info.replace("Z", Math.round(acceleration.z));
         document.getElementById("alpha").innerHTML = info;
 
         console.log(info);
 
         var rotation = eventData.rotationRate;
-        info = xyz.replace('X', rotation.alpha.toFixed(2));
-        info = info.replace('Y', rotation.beta.toFixed(2));
-        info = info.replace('Z', rotation.gamma.toFixed(2));
+        info = xyz.replace('X', Math.round(rotation.alpha));
+        info = info.replace('Y', Math.round(rotation.beta));
+        info = info.replace('Z', Math.round(rotation.gamma));
         document.getElementById("beta").innerHTML = info;
 
         console.log(info);
