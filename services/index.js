@@ -164,23 +164,22 @@ function calculate(data) {
 }
 
 function calculateMinMax(countryLocation, locationPool) {
-  var min = locationPool[0],
-      max = locationPool[0];
+  var min = 0,
+      max = 0;
 
-  locationPool.forEach(function(location) {
-    var distance = haversine(countryLocation, location);
-    if (distance < min) {
-      min = distance;
+  locationPool.forEach(function(entry) {
+    if (min > entry.movement.z) {
+      min = entry.movement.z;
     }
 
-    if (distance > max) {
-      max = distance;
+    if (max < entry.movement.z) {
+      max = entry.movement.z;
     }
   });
 
   return {
     min: min,
-    max: min
+    max: max
   }
 }
 
