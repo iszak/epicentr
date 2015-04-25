@@ -3,14 +3,19 @@ var earthquake = require('./earthquake');
 
 var locations = [
   {
+    name: 'Moscow',
     latitude: 55.75,
-    longitude: 37.616667,
-    name: 'Moscow'
+    longitude: 37.616667
   },
   {
+    name: 'London',
     latitude: 51.507222,
-    longitude: -0.1275,
-    name: 'London'
+    longitude: -0.1275
+  },
+  {
+    name: 'New York',
+    latitude: 43,
+    longitude: -75
   }
 ];
 
