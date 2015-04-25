@@ -105,8 +105,8 @@ var initMap = function(data) {
             map: map,
             title: 'marker' + data.data[i]
         });
-        
-        // // Allow each marker to have an info window    
+
+        // // Allow each marker to have an info window
         // google.maps.event.addListener(marker, 'click', (function(marker, i) {
         //     return function() {
         //         infoWindow.setContent(infoWindowContent[i][0]);
@@ -136,6 +136,7 @@ var timeout = null,
     locationName = null;
 
 socket.on('disaster', function (data) {
+    console.log(data);
     var alertElement = document.getElementById('alert');
 
     alertElement.classList.add('visible');
@@ -151,7 +152,7 @@ socket.on('disaster', function (data) {
     if (locationName !== data.location.name) {
         locationName = data.location.name;
 
-        initMap(data);    
+        initMap(data);
     }
 });
 

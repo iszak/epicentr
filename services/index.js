@@ -150,13 +150,48 @@ function calculate(data) {
 
   console.log('Calculate ', earthquake(locationPool));
   if (earthquake(locationPool)) {
+    var countryLocation = closest(data.latitude, data.longitude);
+    var stats = calculateMinMax(countryLocation, locationPool);
+
     return {
-      location: closest(data.latitude, data.longitude),
-      data: locationPool
+      location: countryLocation,
+      data: locationPool,
+      stats: stats
     };
   } else {
     return null;
   }
+}
+
+function calculateMinMax(countryLocation, locationPool) {
+  var min = locationPool[0],
+      max = locationPool[0];
+
+  locationPool.forEach(function(location) {
+    var distance = haversine(countryLocation, location);
+    if (distance < min) {
+      min = distance;
+    }
+
+    if (distance > max) {
+      max = distance;
+    }
+  });
+
+  return {
+    min: min,
+    max: min
+  }
+}
+
+
+function calculateRatio(min, max, locationPool) {
+  var data = [];
+  locationPool.forEach(function(location) {
+
+  });
+
+  return data;
 }
 
 /**
