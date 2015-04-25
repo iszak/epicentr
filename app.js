@@ -4,6 +4,7 @@ var logger = require('morgan');
 var routes = require('./routes/index');
 
 var app = express();
+
 // socket.io
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -19,8 +20,6 @@ server.listen(3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
