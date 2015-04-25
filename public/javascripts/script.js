@@ -26,7 +26,7 @@ var deviceMotion = function(eventData) {
 
 // SOCKET IO
 
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect(window.location.host);
 
 socket.on('connect', function() {
     window.addEventListener('devicemotion', deviceMotion);
