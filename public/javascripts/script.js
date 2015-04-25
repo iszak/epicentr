@@ -21,7 +21,7 @@ if (window.DeviceMotionEvent) {
         intervalData = eventData.interval;
         document.getElementById("gamma").innerHTML = intervalData;
 
-        
+
     }, false);
 } else {
     document.getElementById("support").innerHTML = "Not supported."
@@ -87,3 +87,7 @@ function geoFindMe() {
     // Call geolocation function
     navigator.geolocation.getCurrentPosition(success, error);
 }
+
+
+window.navigator.vibrate(200);
+
