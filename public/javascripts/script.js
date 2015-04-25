@@ -71,7 +71,7 @@ setInterval(function() {
     }
 
     postData(epicData);
-}, 50);
+}, 100);
 
 
 // SOCKET IO
