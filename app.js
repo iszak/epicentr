@@ -17,8 +17,8 @@ io.on('connection', function (socket) {
     console.log("Received data: ", data);
 
     data.location = {
-      latitude: 51.607222,
-      longitude: -0.1275
+      latitude: 51.6072 + Math.random(),
+      longitude: -0.1275 + Math.random()
     };
 
     disaster.add(data);
