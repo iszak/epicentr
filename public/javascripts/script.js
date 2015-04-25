@@ -70,6 +70,12 @@ setInterval(function() {
         return;
     }
 
+    if (true) {
+        deviceMotion({
+            acceleration: {}
+        });
+    }
+
     epicData.time = Date.now();
 
     postData(epicData);
